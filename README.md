@@ -1,35 +1,64 @@
-# AI Website Builder (Full Stack)
+# AI Website Builder (React + Vite + Express + OpenAI)
 
-A professional AI-powered website builder inspired by v0/lovable/bolt/cursor UX. Users describe a site and get complete runnable HTML/CSS/JS with instant live preview, editable Monaco files, project history, and ZIP export.
+A full-stack AI website builder that turns plain-language prompts into production-ready web projects.
 
-## Project Structure
+## Folder Structure
 
-```bash
-ai-website-builder/
-├── frontend/   # React + Vite app
-└── backend/    # Node + Express API
+```txt
+frontend/   React + Vite UI (Monaco editor, preview, history, zip)
+backend/    Express API for AI code generation
 ```
 
-## Features
+## What You Get
 
 ### Frontend
-- Dark futuristic gaming UI with smooth transitions and responsive layout
-- Prompt input + Generate / Regenerate flow
-- Loading indicator while AI generates output
-- Monaco editor integration (VS Code-like)
-- Multi-file tabs and file tree (`index.html`, `styles.css`, `script.js`)
-- Editable code in-browser with instant iframe live preview
-- Copy per file and Download ZIP support
-- Project naming and local history saved in browser localStorage
+- Futuristic dark UI inspired by v0/lovable/bolt/cursor
+- Prompt input + Generate and Regenerate
+- Loading state while generation runs
+- Monaco editor with multi-file tabs
+- Editable code that updates live preview instantly
+- Copy file content + Download project ZIP
+- Project naming system + local project history sidebar
 - Theme switcher (dark/light)
+- Single-page and multi-page generation mode toggle
+- File tree with add/remove files
 
 ### Backend
-- Express API with `POST /generate`
-- OpenAI integration using environment variable API key
-- Strict JSON output contract validation (`html`, `css`, `js`)
-- Input sanitization and prompt-injection guard checks
+- `POST /generate` endpoint
+- OpenAI integration via environment variables
+- Strong schema validation for input/output
+- Sanitization and prompt-injection guard checks
+- Request payload size limit
 - Rate limiting on generation endpoint
-- Body/file size limits and safe error handling
+- Safe error responses
+
+## API Response Shape
+
+The backend enforces the AI response to include:
+
+```json
+{
+  "html": "...",
+  "css": "...",
+  "js": "..."
+}
+```
+
+It also supports optional `files` for advanced multi-page output:
+
+```json
+{
+  "html": "...",
+  "css": "...",
+  "js": "...",
+  "files": {
+    "index.html": "...",
+    "about.html": "...",
+    "styles.css": "...",
+    "script.js": "..."
+  }
+}
+```
 
 ## Local Setup
 
@@ -39,11 +68,11 @@ ai-website-builder/
 cd backend
 npm install
 cp .env.example .env
-# add OPENAI_API_KEY
+# Set OPENAI_API_KEY in .env
 npm run dev
 ```
 
-Backend runs on `http://localhost:3001`.
+API runs at `http://localhost:3001`.
 
 ### 2) Frontend
 
@@ -54,53 +83,35 @@ cp .env.example .env
 npm run dev
 ```
 
-Frontend runs on `http://localhost:5173`.
+Frontend runs at `http://localhost:5173`.
 
-## API Contract
+## Environment Variables
 
-### `POST /generate`
-Request:
+### Backend (`backend/.env`)
+- `OPENAI_API_KEY` (required)
+- `OPENAI_MODEL` (optional, default `gpt-4.1-mini`)
+- `PORT` (default `3001`)
+- `CORS_ORIGIN` (default all origins)
 
-```json
-{
-  "prompt": "Create a dark gaming portfolio website with animations"
-}
-```
+### Frontend (`frontend/.env`)
+- `VITE_API_BASE` (example: `http://localhost:3001`)
 
-Response:
-
-```json
-{
-  "html": "<!doctype html>...",
-  "css": "body {...}",
-  "js": "const app = ..."
-}
-```
-
-## Deploy
+## Deployment
 
 ### Frontend (Vercel/Netlify)
-1. Set root to `frontend/`
-2. Build command: `npm run build`
-3. Output: `dist`
-4. Env var: `VITE_API_BASE=https://your-backend-domain`
+- Root: `frontend`
+- Build: `npm run build`
+- Output: `dist`
+- Env: `VITE_API_BASE=https://your-api-domain`
 
-### Backend (Render/Railway/Fly.io)
-1. Set root to `backend/`
-2. Start command: `npm start`
-3. Add env vars:
-   - `OPENAI_API_KEY`
-   - `OPENAI_MODEL` (optional)
-   - `CORS_ORIGIN`
+### Backend (Render/Railway/Fly)
+- Root: `backend`
+- Start command: `npm start`
+- Add env vars listed above
 
 ## Example Prompts
 
-- "Create a dark gaming portfolio website with neon animations and a projects section."
-- "Build a SaaS landing page with pricing, testimonials, and CTA buttons."
-- "Generate a multi-section restaurant website with menu cards and reservation form."
-- "Create a futuristic AI startup homepage with animated gradients and scroll effects."
-
-## Notes
-- AI is instructed to return code-only JSON and no explanations.
-- Generated projects are stored in browser local storage (latest 20).
-- ZIP export includes all current files from the editor.
+- `Create a dark gaming portfolio website with animated hero text and project cards.`
+- `Build a modern SaaS landing page with pricing tiers, FAQ, testimonials, and CTA.`
+- `Generate a multi-page restaurant site with home, menu, and contact pages.`
+- `Create a cyberpunk dev agency website with smooth scroll animations.`
