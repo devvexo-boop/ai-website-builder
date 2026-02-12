@@ -1,0 +1,97 @@
+:root {
+  --bg: #0f1220;
+  --panel: #1b2138;
+  --card: #232c48;
+  --text: #e8ecff;
+  --muted: #a9b2d1;
+  --accent: #6d8bff;
+  --accent-2: #7df0d0;
+}
+
+.app[data-theme='light'] {
+  --bg: #f5f7ff;
+  --panel: #ffffff;
+  --card: #ecf0ff;
+  --text: #171b2a;
+  --muted: #4d577a;
+  --accent: #4f67de;
+  --accent-2: #2ea68a;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: radial-gradient(circle at top right, #1f2a57, var(--bg));
+  color: var(--text);
+}
+
+.app { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
+.sidebar {
+  background: var(--panel);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+.brand h1 { margin: 0; font-size: 1.25rem; }
+.brand p { margin: 4px 0 0; color: var(--muted); font-size: 0.9rem; }
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.primary { background: var(--accent); color: white; }
+.secondary { background: var(--card); color: var(--text); width: 100%; }
+.menu {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+  background: var(--card);
+  padding: 10px;
+  border-radius: 10px;
+}
+.menu button { background: rgba(255,255,255,0.07); color: var(--text); text-align: left; }
+.hidden { display: none !important; }
+.tools h2 { margin: 0; font-size: 1rem; }
+.tool-buttons { display: grid; gap: 8px; }
+.tool-buttons button { background: var(--card); color: var(--text); }
+.uploads, .recording {
+  background: var(--card);
+  padding: 10px;
+  border-radius: 10px;
+}
+#imagePreview { width: 100%; max-height: 140px; object-fit: cover; border-radius: 8px; margin-top: 8px; }
+.chat { display: flex; flex-direction: column; padding: 20px; }
+.messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: auto;
+}
+.msg {
+  max-width: 70%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  line-height: 1.4;
+}
+.msg.user { background: var(--accent); color: white; margin-left: auto; }
+.msg.bot { background: var(--card); color: var(--text); }
+.composer { display: flex; gap: 8px; margin-top: 12px; }
+.composer input {
+  flex: 1;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: var(--panel);
+  color: var(--text);
+  padding: 10px;
+}
+.composer button { background: var(--accent-2); color: #05211f; }
+
+@media (max-width: 840px) {
+  .app { grid-template-columns: 1fr; }
+}
